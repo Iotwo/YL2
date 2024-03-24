@@ -5,6 +5,11 @@ from os import getcwd, mkdir, path
 
 
 from scripts.variables import LOCAL_VARS, CONTROLS, ERRORS
+from classes.go_cursor import GOCursor
+from classes.go_menu_btn_ng import GOMenuButtonNewGame
+from classes.go_menu_btn_exit import GOMenuButtonExit
+from classes.go_unit import GOUnit
+from classes.go_obstacle import GOObstacle
 
 
 class Environment(object):
@@ -98,7 +103,7 @@ class Environment(object):
         level = None
         CONTROLS["env"].log.info(f"Загрузка паттерна уровня из директории - {lvl_map_path}...")
         try:
-            lvl = open(file=f"", mode='r', encoding="utf-8")
+            lvl = open(file=f"{lvl_map_path}", mode='r', encoding="utf-8")
         except Exception as ex:
             CONTROLS["env"].log.debug(f"Error code: 1 - {ERRORS[1]}")
             LOCAL_VARS["last_err_code"] = 1
@@ -107,7 +112,8 @@ class Environment(object):
             return 2
         CONTROLS["env"].log.info(f"Файл паттерна открыт, загрузка уровня.")
         level = [line.strip() for line in lvl.read().split('\n')]
-        CONTROLS["env"].log.debug(f"Состав паттерна: \n{'\n\t\t'.join([''.join(line) for line in level])}")
+        level[0] = level[0][1:]
+        CONTROLS["env"].log.debug(f"Состав паттерна: +n {'+n+t+t'.join([''.join(line) for line in level])}".replace('+', '\\'))
         lvl.close()
         #level building
         CONTROLS["obj_mgr"].add_new_gm_object("bg",
@@ -122,7 +128,7 @@ class Environment(object):
                 elif level[i][j] == 'B':  # palce box
                     CONTROLS["obj_mgr"].add_new_gm_object(f"box_{i * len(level[i]) + j}",
                                                           GOObstacle(f"{res_dir}/levels/box.bmp",
-                                                                     (LVL_WIDTH - STEP * j, LVL_HEIGHT - STEP * i),
+                                                                     (STEP * j, STEP * i + STEP / 2),
                                                                      CONTROLS["obj_mgr"].sprt_grp["gm_walls"]),
                                                           "gm_walls")
                 elif level[i][j] == 'C':  # place coin
@@ -130,26 +136,26 @@ class Environment(object):
                 elif level[i][j] == 'H':  # place Hero
                     CONTROLS["obj_mgr"].add_new_gm_object("hero",
                                           GOUnit(f"{res_dir}/hero/hero_full_tile.png",
-                                                 (LVL_WIDTH - STEP * j, LVL_HEIGHT - STEP * i),
+                                                 (STEP * j, STEP * i),
                                                  LOCAL_VARS["pg_game_settings_global_velocity"],
                                                  CONTROLS["obj_mgr"].sprt_grp["gm_hero"],),
                                           "gm_hero",)
                 elif level[i][j] == 'P':  # place plant - special
                     CONTROLS["obj_mgr"].add_new_gm_object("plant",
                                                           GOObstacle(f"{res_dir}/levels/plant_big.png",
-                                                                     (0, 224),
+                                                                     (-192, 224),
                                                                      CONTROLS["obj_mgr"].sprt_grp["gm_walls"]),
                                                           "gm_walls")
                 elif level[i][j] == 'G':  # place ground - special
                     CONTROLS["obj_mgr"].add_new_gm_object("ground",
                                                           GOObstacle(f"{res_dir}/levels/ground2.png",
-                                                                     (192, 464),
+                                                                     (0, 464),
                                                                      CONTROLS["obj_mgr"].sprt_grp["gm_ground"]),
                                                           "gm_ground")
                 elif level[i][j] == 'F':  # place finish - special
                     pass
                 else:
-                    CONTROLS["env"].log.warning(f"В паттерне уровня обнаружен недопустимый символ - {line[i]}.")
+                    CONTROLS["env"].log.warning(f"В паттерне уровня обнаружен недопустимый символ - {level[i][j]} ({ord(level[i][j])}).")
                 
         return None
     

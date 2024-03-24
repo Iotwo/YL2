@@ -5,6 +5,7 @@
 LOCAL_VARS = {
     "conf_path": "./config.cfg",
     "last_err_code": 0,
+    "level_patterns_dir": "",
     "log_dir": "./logs/",
     "pg_game_settings_global_fps": 60,
     "pg_game_settings_global_velocity": 1,

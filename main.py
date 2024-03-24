@@ -8,7 +8,7 @@ from os import (getcwd, path)
 import pygame
 
 from scripts.variables import CONTROLS, LOCAL_VARS, ERRORS
-from scripts.supportive_vestments import load_game_sprites  # rewrite
+from scripts.supportive_vestments import create_sprite_groups  # rewrite
 from classes.environment import Environment
 from classes.pg_gm_state_machine import PGGMStMachine
 from classes.pg_gm_object_manager import PGObjMgr
@@ -45,7 +45,10 @@ if __name__ == "__main__":
     CONTROLS["env"].log.info("Загрузка игровых ресурсов...")
     CONTROLS["ev_proc"].link_event_proc_to_object_mgr(CONTROLS["obj_mgr"])
     CONTROLS["ev_proc"].link_event_proc_to_state_machine(CONTROLS["st_mchn"])
-    load_game_sprites(LOCAL_VARS["sprites_dir"])
+    #load_game_sprites(LOCAL_VARS["sprites_dir"])
+    create_sprite_groups()
+    CONTROLS["env"].load_and_place_mm_sprites(LOCAL_VARS["sprites_dir"])
+    CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
     CONTROLS["obj_mgr"].list_sprite_groups()
     CONTROLS["obj_mgr"].list_objects()
     pygame.mouse.set_visible(False)
