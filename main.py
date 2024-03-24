@@ -8,7 +8,7 @@ from os import (getcwd, path)
 import pygame
 
 from scripts.variables import CONTROLS, LOCAL_VARS, ERRORS
-from scripts.supportive_vestments import load_game_resources  # rewrite
+from scripts.supportive_vestments import load_game_sprites  # rewrite
 from classes.environment import Environment
 from classes.pg_gm_state_machine import PGGMStMachine
 from classes.pg_gm_object_manager import PGObjMgr
@@ -45,7 +45,7 @@ if __name__ == "__main__":
     CONTROLS["env"].log.info("Загрузка игровых ресурсов...")
     CONTROLS["ev_proc"].link_event_proc_to_object_mgr(CONTROLS["obj_mgr"])
     CONTROLS["ev_proc"].link_event_proc_to_state_machine(CONTROLS["st_mchn"])
-    load_game_resources(LOCAL_VARS["sprites_dir"])
+    load_game_sprites(LOCAL_VARS["sprites_dir"])
     CONTROLS["obj_mgr"].list_sprite_groups()
     CONTROLS["obj_mgr"].list_objects()
     pygame.mouse.set_visible(False)
@@ -64,6 +64,8 @@ if __name__ == "__main__":
         if CONTROLS["st_mchn"].get_active_scene() == "MENU":
             CONTROLS["obj_mgr"].update_mm_crusor()
         elif CONTROLS["st_mchn"].get_active_scene() == "GAME":
+            CONTROLS["gm_cam"].follow(CONTROLS["obj_mgr"].objs["hero"])
+            CONTROLS["obj_mgr"].exec_camera_follow(CONTROLS["gm_cam"])
             CONTROLS["obj_mgr"].detect_collision_hero_X_map()
             CONTROLS["obj_mgr"].objs["hero"].update()
             # also update camera position

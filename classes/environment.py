@@ -59,6 +59,101 @@ class Environment(object):
     def initiate_default_config(self) -> None:
         return None
 
+    def load_and_place_mm_sprites(self, res_dir:str) -> int:
+        """
+            DESCR: load sprites for main menu and place them in order
+            ARGS:
+                * res_dir: directory of sprites
+        """
+   
+        CONTROLS["obj_mgr"].add_new_gm_object("menu_bg",
+                                              GOCursor(f"{res_dir}/interface/mm_bg.bmp",
+                                                       CONTROLS["obj_mgr"].sprt_grp["mm_interface_bg"]),
+                                              "mm_interface_bg")
+        CONTROLS["obj_mgr"].add_new_gm_object("menu_cursor",
+                                              GOCursor(f"{res_dir}/interface/cursor.png",
+                                                       CONTROLS["obj_mgr"].sprt_grp["mm_interface_cursor"]),
+                                              "mm_interface_cursor")
+        CONTROLS["obj_mgr"].add_new_gm_object("ng_btn",
+                                              GOMenuButtonNewGame(f"{res_dir}/interface/newgame.bmp",
+                                                                  (175, 50,),
+                                                                  CONTROLS["obj_mgr"].sprt_grp["mm_interface_buttons"]),
+                                              "mm_interface_buttons")
+        CONTROLS["obj_mgr"].add_new_gm_object("exit_btn",
+                                              GOMenuButtonExit(f"{res_dir}/interface/exitgame.bmp",
+                                                               (175, 150,),
+                                                               CONTROLS["obj_mgr"].sprt_grp["mm_interface_buttons"]),
+                                              "mm_interface_buttons")
+        return None
+
+    def load_and_place_level_1(self, res_dir:str, lvl_map_path: str) -> int:
+        """
+            DECR: Temprorary method for level loading. Env class must ONLY load resources
+        """
+        STEP = 32
+        LVL_WIDTH = 1280
+        LVL_HEIGHT = 480
+        CONTROLS["env"].log.debug(f"Шаг компоновки уровня - {STEP} пикселя.")
+        lvl_mapping = ['*', 'P', 'G', 'B', 'C', 'F', 'H']
+        level = None
+        CONTROLS["env"].log.info(f"Загрузка паттерна уровня из директории - {lvl_map_path}...")
+        try:
+            lvl = open(file=f"", mode='r', encoding="utf-8")
+        except Exception as ex:
+            CONTROLS["env"].log.debug(f"Error code: 1 - {ERRORS[1]}")
+            LOCAL_VARS["last_err_code"] = 1
+            CONTROLS["env"].log.error("Не удалось загрузить паттерн уровня.")
+            CONTROLS["env"].log.debug(f"Raw exception data: {ex.__str__()}")
+            return 2
+        CONTROLS["env"].log.info(f"Файл паттерна открыт, загрузка уровня.")
+        level = [line.strip() for line in lvl.read().split('\n')]
+        CONTROLS["env"].log.debug(f"Состав паттерна: \n{'\n\t\t'.join([''.join(line) for line in level])}")
+        lvl.close()
+        #level building
+        CONTROLS["obj_mgr"].add_new_gm_object("bg",
+                                              GOObstacle(f"{res_dir}/levels/level_bg.png",
+                                                         (0, 0),
+                                                         CONTROLS["obj_mgr"].sprt_grp["gm_bg"]),
+                                              "gm_bg")
+        for i in range(len(level)):
+            for j in range(len(level[i])):
+                if level[i][j] == '*':  # free space
+                    pass
+                elif level[i][j] == 'B':  # palce box
+                    CONTROLS["obj_mgr"].add_new_gm_object(f"box_{i * len(level[i]) + j}",
+                                                          GOObstacle(f"{res_dir}/levels/box.bmp",
+                                                                     (LVL_WIDTH - STEP * j, LVL_HEIGHT - STEP * i),
+                                                                     CONTROLS["obj_mgr"].sprt_grp["gm_walls"]),
+                                                          "gm_walls")
+                elif level[i][j] == 'C':  # place coin
+                    pass
+                elif level[i][j] == 'H':  # place Hero
+                    CONTROLS["obj_mgr"].add_new_gm_object("hero",
+                                          GOUnit(f"{res_dir}/hero/hero_full_tile.png",
+                                                 (LVL_WIDTH - STEP * j, LVL_HEIGHT - STEP * i),
+                                                 LOCAL_VARS["pg_game_settings_global_velocity"],
+                                                 CONTROLS["obj_mgr"].sprt_grp["gm_hero"],),
+                                          "gm_hero",)
+                elif level[i][j] == 'P':  # place plant - special
+                    CONTROLS["obj_mgr"].add_new_gm_object("plant",
+                                                          GOObstacle(f"{res_dir}/levels/plant_big.png",
+                                                                     (0, 224),
+                                                                     CONTROLS["obj_mgr"].sprt_grp["gm_walls"]),
+                                                          "gm_walls")
+                elif level[i][j] == 'G':  # place ground - special
+                    CONTROLS["obj_mgr"].add_new_gm_object("ground",
+                                                          GOObstacle(f"{res_dir}/levels/ground2.png",
+                                                                     (192, 464),
+                                                                     CONTROLS["obj_mgr"].sprt_grp["gm_ground"]),
+                                                          "gm_ground")
+                elif level[i][j] == 'F':  # place finish - special
+                    pass
+                else:
+                    CONTROLS["env"].log.warning(f"В паттерне уровня обнаружен недопустимый символ - {line[i]}.")
+                
+        return None
+    
+
     def load_config_from_file(self) -> int:
         """
         DESCR: Import configuration from cfg-file

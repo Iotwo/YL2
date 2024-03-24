@@ -4,6 +4,7 @@ from pygame import Surface
 from scripts.variables import CONTROLS, LOCAL_VARS, ERRORS
 from classes.pg_gm_camera import PGGMCamera
 
+
 class PGObjMgr:
     """
         DESCR: PyGame game object manager
@@ -77,10 +78,13 @@ class PGObjMgr:
             self.objs["hero"].set_falling(True)
         clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_walls"])
         if clsn_map is not None:
-            self.objs["hero"].set_cur_movement("STOP")
-            if abs(clsn_map.rect.right - self.objs["hero"].rect.left) <= 2:
+            if self.objs["hero"].rect.bottom - clsn_map.rect.top <= 2:
+                self.objs["hero"].set_falling(False)
+            elif abs(clsn_map.rect.right - self.objs["hero"].rect.left) <= 2:
+                self.objs["hero"].set_cur_movement("STOP")
                 self.objs["hero"].move_right()
             elif abs(clsn_map.rect.left - self.objs["hero"].rect.right) <= 2:
+                self.objs["hero"].set_cur_movement("STOP")
                 self.objs["hero"].move_left()
 
         return None

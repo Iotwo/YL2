@@ -1,0 +1,4 @@
+dev/*
+scripts/__pycache__/*
+classes/__pycache__/*
+logs/*
