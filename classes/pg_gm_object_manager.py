@@ -171,7 +171,7 @@ class PGObjMgr:
         self.sprt_grp["mm_interface_cursor"].draw(screen)
         text_f = font.Font(None, 50)
         text = text_f.render(f"Набрано очков: {LOCAL_VARS['scores_total']}", True, (100, 255, 100))
-        screen.blit(text, (96, 320,))
+        screen.blit(text, (10, 340,))
         return None
 
     def list_objects(self) -> None:
