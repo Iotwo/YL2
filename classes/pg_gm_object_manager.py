@@ -95,6 +95,7 @@ class PGObjMgr:
                 or self.objs[obj] in self.sprt_grp["gm_walls"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_hero"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_foes"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_coins"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_projectiles_e"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_projectiles_h"].sprites()):
                 camera.update_pos(self.objs[obj])
@@ -107,6 +108,7 @@ class PGObjMgr:
         self.sprt_grp["gm_ground"].draw(screen)
         self.sprt_grp["gm_hero"].draw(screen)
         self.sprt_grp["gm_foes"].draw(screen)
+        self.sprt_grp["gm_coins"].draw(screen)
         self.sprt_grp["gm_projectiles_e"].draw(screen)
         self.sprt_grp["gm_projectiles_h"].draw(screen)
         return None

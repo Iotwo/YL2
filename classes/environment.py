@@ -133,7 +133,11 @@ class Environment(object):
                                                                      CONTROLS["obj_mgr"].sprt_grp["gm_walls"]),
                                                           "gm_walls")
                 elif level[i][j] == 'C':  # place coin
-                    pass
+                    CONTROLS["obj_mgr"].add_new_gm_object(f"coin_{i * len(level[i]) + j}",
+                                                          GOObstacle(f"{res_dir}/levels/pelman.png",
+                                                                     (STEP * j, STEP * i + STEP / 2),
+                                                                     CONTROLS["obj_mgr"].sprt_grp["gm_coins"]),
+                                                          "gm_coins")
                 elif level[i][j] == 'H':  # place Hero
                     CONTROLS["obj_mgr"].add_new_gm_object("hero",
                                           GOUnit(f"{res_dir}/hero/hero_full_tile.png",
