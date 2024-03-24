@@ -128,7 +128,7 @@ class PGObjMgr:
         keys = list(self.objs.keys())
         for obj in keys:
             #print(obj, id(obj), self.objs[obj].groups())
-            if id(self.objs[obj].groups()[-1]) in groups:
+            if len(self.objs[obj].groups()) > 0 and id(self.objs[obj].groups()[-1]) in groups:
                 self.objs[obj].kill()
                 self.objs.pop(obj, None)
         

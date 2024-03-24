@@ -68,6 +68,8 @@ class PGGMStMachine:
         self.curr_scene = new_scene
         if self.curr_scene == "MENU":
             CONTROLS["obj_mgr"].exec_clear_all_gm_sprites()
+        elif self.curr_scene == "SCORE":
+            CONTROLS["obj_mgr"].exec_clear_all_gm_sprites()
         elif self.curr_scene == "GAME":
             LOCAL_VARS["scores_total"] = 0
             CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
