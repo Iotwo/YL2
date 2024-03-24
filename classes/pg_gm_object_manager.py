@@ -127,7 +127,7 @@ class PGObjMgr:
                                                  "gm_foes", "gm_coins", "gm_projectiles_e", "gm_projectiles_h")]
         keys = list(self.objs.keys())
         for obj in keys:
-            print(obj, id(obj), self.objs[obj].groups())
+            #print(obj, id(obj), self.objs[obj].groups())
             if id(self.objs[obj].groups()[-1]) in groups:
                 self.objs[obj].kill()
                 self.objs.pop(obj, None)
