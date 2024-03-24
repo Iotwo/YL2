@@ -1,6 +1,7 @@
 from pygame.sprite import Group, GroupSingle, Sprite
 from pygame import sprite
 from pygame import Surface
+from pygame import font
 from scripts.variables import CONTROLS, LOCAL_VARS, ERRORS
 from classes.pg_gm_camera import PGGMCamera
 
@@ -124,6 +125,10 @@ class PGObjMgr:
         self.sprt_grp["gm_coins"].draw(screen)
         self.sprt_grp["gm_projectiles_e"].draw(screen)
         self.sprt_grp["gm_projectiles_h"].draw(screen)
+
+        text_f = font.Font(None, 50)
+        text = text_f.render(f"Очки: {LOCAL_VARS['scores_total']}", True, (100, 255, 100))
+        screen.blit(text, (10, 10,))
         return None
 
     def exec_draw_all_mm_interface(self, screen: Surface) -> None:
