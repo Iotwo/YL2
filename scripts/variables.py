@@ -15,6 +15,7 @@ LOCAL_VARS = {
     "pg_level_width": 0,
     "pg_screen_height": 0,
     "pg_screen_width": 0,
+    "scores_total": 0,
     "sprites_dir": "",
     }
 

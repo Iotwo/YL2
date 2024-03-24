@@ -89,6 +89,19 @@ class PGObjMgr:
 
         return None
 
+    def detect_collision_hero_X_coins(self) -> None:
+        """
+        """
+        clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_coins"])
+        if clsn_map is not None:
+            LOCAL_VARS["scores_total"] += 10
+            clsn_map.kill()
+            CONTROLS["env"].log.debug(f"У Экземпляра {clsn_map.__class__.__name__} по адресу {id(clsn_map)} "\
+                                      f"произошла коллизия.")
+            CONTROLS["env"].log.debug(f"Значение счётчика очков - {LOCAL_VARS['scores_total']}.")
+
+        return None
+
     def exec_camera_follow(self, camera: PGGMCamera) -> None:
         for obj in self.objs.keys():
             if (self.objs[obj] in self.sprt_grp["gm_ground"].sprites()

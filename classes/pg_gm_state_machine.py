@@ -66,6 +66,8 @@ class PGGMStMachine:
             LOCAL_VARS["last_err_code"] = 56
             return 56
         self.curr_scene = new_scene
+        if self.curr_scene == "GAME":
+            LOCAL_VARS["scores_total"] = 0
         
         CONTROLS["env"].log.debug(f"Error code: 0 - {ERRORS[0]}")
         LOCAL_VARS["last_err_code"] = 0

@@ -10,6 +10,7 @@ from classes.go_menu_btn_ng import GOMenuButtonNewGame
 from classes.go_menu_btn_exit import GOMenuButtonExit
 from classes.go_unit import GOUnit
 from classes.go_obstacle import GOObstacle
+from classes.go_lvl_finish import GOLevelFinish
 
 
 class Environment(object):
