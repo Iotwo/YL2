@@ -13,7 +13,7 @@ class GOUnit(GOObject):
         self.BASIC_W = 32
         self.BASIC_H = 32
         self.STRIKE_W = 40
-        self.JUMP_POWER = 3
+        self.JUMP_POWER = 3.75
         
         self.vx = speed
         self.vy = speed / 10

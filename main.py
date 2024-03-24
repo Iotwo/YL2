@@ -1,6 +1,5 @@
 ### x_pos += v * clock.tick() / 1000  # v * t в секундах
 
-
 import logging
 import sys
 from os import (getcwd, path)

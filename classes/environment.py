@@ -113,8 +113,9 @@ class Environment(object):
         CONTROLS["env"].log.info(f"Файл паттерна открыт, загрузка уровня.")
         level = [line.strip() for line in lvl.read().split('\n')]
         level[0] = level[0][1:]
-        CONTROLS["env"].log.debug(f"Состав паттерна: +n {'+n+t+t'.join([''.join(line) for line in level])}".replace('+', '\\'))
         lvl.close()
+        lvl = "\n\n\t\t"+'\n'.join(["\n\t\t".join(level)])
+        CONTROLS["env"].log.debug(f"Состав паттерна: {lvl}")
         #level building
         CONTROLS["obj_mgr"].add_new_gm_object("bg",
                                               GOObstacle(f"{res_dir}/levels/level_bg.png",
