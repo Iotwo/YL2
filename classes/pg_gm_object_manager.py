@@ -115,7 +115,25 @@ class PGObjMgr:
                 camera.update_pos(self.objs[obj])
                 
         return None
+
+    def exec_clear_all_gm_sprites(self) -> None:
+        groups = [id(self.sprt_grp[g]) for g in ("gm_bg", "gm_walls", "gm_ground", "gm_hero",
+                                                 "gm_foes", "gm_coins", "gm_projectiles_e", "gm_projectiles_h")]
+        keys = list(self.objs.keys())
+        for obj in keys:
+            if id(self.objs[obj].groups()[-1]) in groups:
+                self.objs[obj].kill()
+                self.objs.pop(obj, None)
         
+        self.sprt_grp["gm_bg"].empty()
+        self.sprt_grp["gm_walls"].empty()
+        self.sprt_grp["gm_ground"].empty()
+        self.sprt_grp["gm_hero"].empty()
+        self.sprt_grp["gm_foes"].empty()
+        self.sprt_grp["gm_coins"].empty()
+        self.sprt_grp["gm_projectiles_e"].empty()
+        self.sprt_grp["gm_projectiles_h"].empty()
+     
     def exec_draw_all_gm_interface(self, screen: Surface) -> None:
         self.sprt_grp["gm_bg"].draw(screen)
         self.sprt_grp["gm_walls"].draw(screen)

@@ -47,7 +47,7 @@ if __name__ == "__main__":
     #load_game_sprites(LOCAL_VARS["sprites_dir"])
     create_sprite_groups()
     CONTROLS["env"].load_and_place_mm_sprites(LOCAL_VARS["sprites_dir"])
-    CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
+    #CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
     CONTROLS["obj_mgr"].list_sprite_groups()
     CONTROLS["obj_mgr"].list_objects()
     pygame.mouse.set_visible(False)
@@ -55,6 +55,7 @@ if __name__ == "__main__":
     
     
     CONTROLS["st_mchn"].switch_game_state("RUNNING")
+    CONTROLS["st_mchn"].switch_scene("MENU")
     CONTROLS["env"].log.info("Запущен основной игровой цикл.")
     while CONTROLS["st_mchn"].get_current_state() in ["RUNNING", "PAUSED"]:
         if CONTROLS["st_mchn"].get_current_state() == "RUNNING":  # running

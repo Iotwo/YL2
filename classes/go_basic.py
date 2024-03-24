@@ -22,8 +22,8 @@ class GOBasicIface(Sprite):
 
     def __del__(self) -> None:
         CONTROLS["env"].log.debug(f"Экземпляр {self.__class__.__name__} "\
-                                  f"по адресу {id(instance)} помечен на удаление.")
-        super().__del__()
+                                  f"по адресу {id(self)} помечен на удаление.")
+        #super().__del__()
         return None
 
 

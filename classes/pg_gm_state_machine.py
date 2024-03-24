@@ -7,8 +7,8 @@ class PGGMStMachine:
     """
     def __init__(self,) -> None:
         super().__init__()
-        self.av_scenes = ["MENU", "GAME", "SCORE"]
-        self.curr_scene = "MENU"
+        self.av_scenes = ["NOT_SET", "MENU", "GAME", "SCORE"]
+        self.curr_scene = "NOT_SET"
         self.gm_curr_state = "NOT_SET"
         self.gm_states = ["NOT SET", "RUNNING", "PAUSED", "ENDED"]
         
@@ -66,8 +66,11 @@ class PGGMStMachine:
             LOCAL_VARS["last_err_code"] = 56
             return 56
         self.curr_scene = new_scene
-        if self.curr_scene == "GAME":
+        if self.curr_scene == "MENU":
+            CONTROLS["obj_mgr"].exec_clear_all_gm_sprites()
+        elif self.curr_scene == "GAME":
             LOCAL_VARS["scores_total"] = 0
+            CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
         
         CONTROLS["env"].log.debug(f"Error code: 0 - {ERRORS[0]}")
         LOCAL_VARS["last_err_code"] = 0
