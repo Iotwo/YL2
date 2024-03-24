@@ -228,8 +228,6 @@ class GOUnit(GOObject):
         # is to check any collison from inside the class
         # Game dev is surely not mine pros
 
-        
-        
         self.move(self.cur_movement)
         self.act(self.cur_act)
         return None

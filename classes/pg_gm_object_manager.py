@@ -2,6 +2,7 @@ from pygame.sprite import Group, GroupSingle, Sprite
 from pygame import sprite
 from pygame import Surface
 from scripts.variables import CONTROLS, LOCAL_VARS, ERRORS
+from classes.pg_gm_camera import PGGMCamera
 
 class PGObjMgr:
     """
@@ -17,6 +18,7 @@ class PGObjMgr:
 
     def __new__(cls, *args, **kwargs) -> object:
         instance = super().__new__(cls)
+        instance.cam = None
         instance.objs = None
         instance.sprt_grp = None
         CONTROLS["env"].log.debug(f"Создан экземпляр {instance.__class__.__name__} "\
@@ -61,23 +63,44 @@ class PGObjMgr:
         CONTROLS["env"].log.info(f"Добавлена группа спрайтов - {group_name}.")
         return 0
 
+
     def detect_collision_hero_X_map(self) -> None:
         """
             DESCR: detect collision between hero and map
                    change hero state according to collision result
         """
-        clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_map"])
+        clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_ground"])
         if clsn_map is not None:
             self.objs["hero"].set_falling(False)
             self.objs["hero"].rect.bottom = clsn_map.rect.top + 1
         else:
             self.objs["hero"].set_falling(True)
+        clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_walls"])
+        if clsn_map is not None:
+            self.objs["hero"].set_cur_movement("STOP")
+            if abs(clsn_map.rect.right - self.objs["hero"].rect.left) <= 2:
+                self.objs["hero"].move_right()
+            elif abs(clsn_map.rect.left - self.objs["hero"].rect.right) <= 2:
+                self.objs["hero"].move_left()
+
+        return None
+
+    def exec_camera_follow(self, camera: PGGMCamera) -> None:
+        for obj in self.objs.keys():
+            if (self.objs[obj] in self.sprt_grp["gm_ground"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_walls"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_hero"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_foes"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_projectiles_e"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_projectiles_h"].sprites()):
+                camera.update_pos(self.objs[obj])
+                
         return None
         
-
     def exec_draw_all_gm_interface(self, screen: Surface) -> None:
         self.sprt_grp["gm_bg"].draw(screen)
-        self.sprt_grp["gm_map"].draw(screen)
+        self.sprt_grp["gm_walls"].draw(screen)
+        self.sprt_grp["gm_ground"].draw(screen)
         self.sprt_grp["gm_hero"].draw(screen)
         self.sprt_grp["gm_foes"].draw(screen)
         self.sprt_grp["gm_projectiles_e"].draw(screen)

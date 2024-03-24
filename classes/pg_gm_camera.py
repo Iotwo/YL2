@@ -28,14 +28,14 @@ class PGGMCamera():
         return None
     
 
-    def apply(self, obj) -> None:
+    def update_pos(self, obj) -> None:
         obj.rect.x += self.dx
-        obj.rect.y += self.dy
+        #obj.rect.y += self.dy
         
         return None
     
-    def update(self, target) -> None:
-        self.dx = -(target.rect.x + target.rect.width // 2)
-        self.dy = -(target.rect.y + target.rect.height // 2)
+    def follow(self, target) -> None:
+        self.dx = -(target.rect.x + target.rect.w // 2 - LOCAL_VARS["pg_screen_width"] // 2)
+        #self.dy = -(target.rect.y + target.rect.h // 2 - LOCAL_VARS["pg_screen_height"] // 2)
         
         return None
