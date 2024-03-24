@@ -7,7 +7,7 @@ LOCAL_VARS = {
     "last_err_code": 0,
     "level_patterns_dir": "",
     "log_dir": "./logs/",
-    "pg_game_settings_global_fps": 60,
+    "pg_game_settings_global_fps": 30,
     "pg_game_settings_global_velocity": 1,
     "pg_modules_init_ok_cnt": 0,
     "pg_modules_init_err_cnt": 0,

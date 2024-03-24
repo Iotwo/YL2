@@ -47,6 +47,7 @@ if __name__ == "__main__":
     #load_game_sprites(LOCAL_VARS["sprites_dir"])
     create_sprite_groups()
     CONTROLS["env"].load_and_place_mm_sprites(LOCAL_VARS["sprites_dir"])
+    CONTROLS["env"].load_score_sprites(LOCAL_VARS["sprites_dir"])
     #CONTROLS["env"].load_and_place_level_1(LOCAL_VARS["sprites_dir"], LOCAL_VARS["level_patterns_dir"] + "/level_1.txt")
     CONTROLS["obj_mgr"].list_sprite_groups()
     CONTROLS["obj_mgr"].list_objects()
@@ -71,24 +72,26 @@ if __name__ == "__main__":
             CONTROLS["obj_mgr"].exec_camera_follow(CONTROLS["gm_cam"])
             CONTROLS["obj_mgr"].detect_collision_hero_X_map()
             CONTROLS["obj_mgr"].detect_collision_hero_X_coins()
+            CONTROLS["obj_mgr"].detect_collision_hero_X_finish()
             CONTROLS["obj_mgr"].objs["hero"].update()
+            CONTROLS["obj_mgr"].update_all_gm_objects()
             # also update camera position
         elif CONTROLS["st_mchn"].get_active_scene() == "SCORE":
-            pass
+            CONTROLS["obj_mgr"].update_mm_crusor()
         
         # GRAPHIC DRAWING
         if CONTROLS["st_mchn"].get_active_scene() == "MENU":
-            # draw only menu things            
-            #CONTROLS["game_screen"].fill(pygame.Color("blue")) # chagne with bg sprite
+            # draw only menu things
             CONTROLS["obj_mgr"].exec_draw_all_mm_interface(CONTROLS["game_screen"])
         elif CONTROLS["st_mchn"].get_active_scene() == "GAME":  
             # draw only game things
             CONTROLS["obj_mgr"].exec_draw_all_gm_interface(CONTROLS["game_screen"])
         elif CONTROLS["st_mchn"].get_active_scene() == "SCORE":
             # draw scores
-            CONTROLS["game_screen"].fill(pygame.Color("yellow"))
-        else:
+            CONTROLS["game_screen"].fill(pygame.Color("blue"))
             CONTROLS["obj_mgr"].exec_draw_all_score_interface(CONTROLS["game_screen"])
+        else:
+            pass
 
         if pygame.mouse.get_focused():
             pass

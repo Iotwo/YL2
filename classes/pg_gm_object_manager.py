@@ -103,6 +103,11 @@ class PGObjMgr:
 
         return None
 
+    def detect_collision_hero_X_finish(self) -> None:
+        clsn_map = sprite.spritecollideany(self.objs["hero"], self.sprt_grp["gm_finish"])
+        if clsn_map is not None:
+            clsn_map.set_touched(True)
+
     def exec_camera_follow(self, camera: PGGMCamera) -> None:
         for obj in self.objs.keys():
             if (self.objs[obj] in self.sprt_grp["gm_ground"].sprites()
@@ -110,6 +115,7 @@ class PGObjMgr:
                 or self.objs[obj] in self.sprt_grp["gm_hero"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_foes"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_coins"].sprites()
+                or self.objs[obj] in self.sprt_grp["gm_finish"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_projectiles_e"].sprites()
                 or self.objs[obj] in self.sprt_grp["gm_projectiles_h"].sprites()):
                 camera.update_pos(self.objs[obj])
@@ -117,10 +123,11 @@ class PGObjMgr:
         return None
 
     def exec_clear_all_gm_sprites(self) -> None:
-        groups = [id(self.sprt_grp[g]) for g in ("gm_bg", "gm_walls", "gm_ground", "gm_hero",
+        groups = [id(self.sprt_grp[g]) for g in ("gm_bg", "gm_walls", "gm_finish", "gm_ground", "gm_hero",
                                                  "gm_foes", "gm_coins", "gm_projectiles_e", "gm_projectiles_h")]
         keys = list(self.objs.keys())
         for obj in keys:
+            print(obj, id(obj), self.objs[obj].groups())
             if id(self.objs[obj].groups()[-1]) in groups:
                 self.objs[obj].kill()
                 self.objs.pop(obj, None)
@@ -131,13 +138,16 @@ class PGObjMgr:
         self.sprt_grp["gm_hero"].empty()
         self.sprt_grp["gm_foes"].empty()
         self.sprt_grp["gm_coins"].empty()
+        self.sprt_grp["gm_finish"].empty()
         self.sprt_grp["gm_projectiles_e"].empty()
         self.sprt_grp["gm_projectiles_h"].empty()
+        return None
      
     def exec_draw_all_gm_interface(self, screen: Surface) -> None:
         self.sprt_grp["gm_bg"].draw(screen)
         self.sprt_grp["gm_walls"].draw(screen)
         self.sprt_grp["gm_ground"].draw(screen)
+        self.sprt_grp["gm_finish"].draw(screen)
         self.sprt_grp["gm_hero"].draw(screen)
         self.sprt_grp["gm_foes"].draw(screen)
         self.sprt_grp["gm_coins"].draw(screen)
@@ -155,7 +165,13 @@ class PGObjMgr:
         self.sprt_grp["mm_interface_cursor"].draw(screen)
         return None
 
-    def exec_draw_all_score_interface(self) -> None:
+    def exec_draw_all_score_interface(self, screen: Surface) -> None:
+        self.sprt_grp["sc_bg"].draw(screen)
+        self.sprt_grp["mm_interface_buttons"].draw(screen)
+        self.sprt_grp["mm_interface_cursor"].draw(screen)
+        text_f = font.Font(None, 50)
+        text = text_f.render(f"Набрано очков: {LOCAL_VARS['scores_total']}", True, (100, 255, 100))
+        screen.blit(text, (96, 320,))
         return None
 
     def list_objects(self) -> None:
@@ -182,7 +198,7 @@ class PGObjMgr:
         return None
 
     def update_all_gm_objects(self, *args) -> None:
-        
+        self.objs["house"].update(*args)
         return None
 
     def update_all_mm_buttons(self, *args) -> None:

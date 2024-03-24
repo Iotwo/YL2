@@ -27,7 +27,7 @@ class GOLevelFinish(GOBasicIface):
         return instance
 
 
-    def set_touched(touch: bool) -> None:
+    def set_touched(self,touch: bool) -> None:
         self.is_touched = touch
         return None
 

@@ -9,6 +9,7 @@ from classes.go_cursor import GOCursor
 from classes.go_menu_btn_ng import GOMenuButtonNewGame
 from classes.go_menu_btn_exit import GOMenuButtonExit
 from classes.go_unit import GOUnit
+from classes.go_object import GOObject
 from classes.go_obstacle import GOObstacle
 from classes.go_lvl_finish import GOLevelFinish
 
@@ -73,7 +74,8 @@ class Environment(object):
         """
    
         CONTROLS["obj_mgr"].add_new_gm_object("menu_bg",
-                                              GOCursor(f"{res_dir}/interface/mm_bg.bmp",
+                                              GOObject(f"{res_dir}/interface/mm_bg.bmp",
+                                                       (0, 0,),
                                                        CONTROLS["obj_mgr"].sprt_grp["mm_interface_bg"]),
                                               "mm_interface_bg")
         CONTROLS["obj_mgr"].add_new_gm_object("menu_cursor",
@@ -90,6 +92,14 @@ class Environment(object):
                                                                (175, 150,),
                                                                CONTROLS["obj_mgr"].sprt_grp["mm_interface_buttons"]),
                                               "mm_interface_buttons")
+        return None
+
+    def load_score_sprites(self, res_dir:str) -> int:
+        CONTROLS["obj_mgr"].add_new_gm_object("sc_bg",
+                                              GOObject(f"{res_dir}/interface/score_bg.png",
+                                                       (0, 0,),
+                                                       CONTROLS["obj_mgr"].sprt_grp["sc_bg"]),
+                                              "sc_bg")
         return None
 
     def load_and_place_level_1(self, res_dir:str, lvl_map_path: str) -> int:
@@ -119,7 +129,7 @@ class Environment(object):
         CONTROLS["env"].log.debug(f"Состав паттерна: {lvl}")
         #level building
         CONTROLS["obj_mgr"].add_new_gm_object("bg",
-                                              GOObstacle(f"{res_dir}/levels/level_bg.png",
+                                              GOObject(f"{res_dir}/levels/level_bg.png",
                                                          (0, 0),
                                                          CONTROLS["obj_mgr"].sprt_grp["gm_bg"]),
                                               "gm_bg")
@@ -158,8 +168,12 @@ class Environment(object):
                                                                      (0, 464),
                                                                      CONTROLS["obj_mgr"].sprt_grp["gm_ground"]),
                                                           "gm_ground")
-                elif level[i][j] == 'F':  # place finish - special
-                    pass
+                elif level[i][j] == 'F':  # place finish - special  gm_finish
+                    CONTROLS["obj_mgr"].add_new_gm_object("house",
+                                                          GOLevelFinish(f"{res_dir}/levels/house_big.png",
+                                                                     (1142, 292),
+                                                                     CONTROLS["obj_mgr"].sprt_grp["gm_finish"]),
+                                                          "gm_finish")
                 else:
                     CONTROLS["env"].log.warning(f"В паттерне уровня обнаружен недопустимый символ - {level[i][j]} ({ord(level[i][j])}).")
                 

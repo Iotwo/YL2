@@ -9,15 +9,17 @@ def create_sprite_groups() -> None:
     
     CONTROLS["obj_mgr"].add_new_sprite_group("mm_interface_cursor", GroupSingle())
     CONTROLS["obj_mgr"].add_new_sprite_group("mm_interface_buttons", Group())
-    CONTROLS["obj_mgr"].add_new_sprite_group("mm_interface_bg", Group())
+    CONTROLS["obj_mgr"].add_new_sprite_group("mm_interface_bg", GroupSingle())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_bg", Group())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_ground", Group())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_walls", Group())
+    CONTROLS["obj_mgr"].add_new_sprite_group("gm_finish", GroupSingle())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_hero", GroupSingle())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_foes", Group())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_projectiles_e", Group())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_projectiles_h", Group())
     CONTROLS["obj_mgr"].add_new_sprite_group("gm_coins", Group())
+    CONTROLS["obj_mgr"].add_new_sprite_group("sc_bg", GroupSingle())
     return None
 
 
